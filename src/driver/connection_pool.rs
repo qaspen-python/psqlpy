@@ -92,7 +92,16 @@ pub fn connect(
             recycling_method: RecyclingMethod::Fast,
         };
     }
-    let mgr = Manager::from_config(pg_config, NoTls, mgr_config);
+
+    let mgr: Manager = if pg_config.get_ssl_mode() == tokio_postgres::config::SslMode::Disable {
+        Manager::from_config(pg_config, NoTls, mgr_config)
+    } else {
+        let config = rustls::ClientConfig::builder()
+            .with_root_certificates(rustls::RootCertStore::empty())
+            .with_no_client_auth();
+        let tls = tokio_postgres_rustls::MakeRustlsConnect::new(config);
+        Manager::from_config(pg_config, tls, mgr_config)
+    };
 
     let mut db_pool_builder = Pool::builder(mgr);
     if let Some(max_db_pool_size) = max_db_pool_size {
