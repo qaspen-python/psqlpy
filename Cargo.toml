@@ -28,11 +28,13 @@ uuid = { version = "1.7.0", features = ["v4"] }
 serde_json = "1.0.113"
 futures-util = "0.3.30"
 macaddr = "1.0.1"
+geo-types = "0.7.13"
 tokio-postgres = { git = "https://github.com/chandr-andr/rust-postgres.git", branch = "master", features = [
     "with-serde_json-1",
     "array-impls",
     "with-chrono-0_4",
     "with-uuid-1",
+    "with-geo-types-0_7",
 ] }
 postgres-types = { git = "https://github.com/chandr-andr/rust-postgres.git", branch = "master", features = [
     "derive",
@@ -42,3 +44,4 @@ rust_decimal = { git = "https://github.com/chandr-andr/rust-decimal.git", branch
     "db-postgres",
     "db-tokio-postgres",
 ] }
+itertools = "0.12.1"
